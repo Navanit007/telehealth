@@ -8,13 +8,18 @@ import pytesseract
 import cv2
 import numpy as np
 import re
+import shutil
 
 # ================= CONFIG =================
 st.set_page_config(page_title="Telehealth AI", layout="wide")
 BASE_PATH = os.path.join("dataset", "Disease symptom prediction")
 HISTORY_FILE = "patient_history.csv"
 
-pytesseract.pytesseract.tesseract_cmd = r"C:\Program Files\Tesseract-OCR\tesseract.exe"
+# Cross-platform Tesseract path
+if os.name == "nt":  # Windows
+    pytesseract.pytesseract.tesseract_cmd = r"C:\Program Files\Tesseract-OCR\tesseract.exe"
+else:  # Linux (Koyeb/Heroku)
+    pytesseract.pytesseract.tesseract_cmd = shutil.which("tesseract") or "/usr/bin/tesseract"
 
 # ================= STYLE =================
 st.markdown("""
@@ -178,7 +183,7 @@ with tabs[3]:
         gray = cv2.cvtColor(np.array(image), cv2.COLOR_RGB2GRAY)
 
         if st.button("Extract & Diagnose"):
-            text = pytesseract.image_to_string(gray)
+            text = pytesseract.image_to_string(gray, config="--psm 6")
             st.text_area("Extracted text", text, height=250)
 
             detected, diseases = diagnose_from_text(text)
