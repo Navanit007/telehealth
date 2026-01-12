@@ -9,7 +9,7 @@ import cv2
 import numpy as np
 import re
 
-# ================= CONFIG =================
+# =============== CONFIG =================
 st.set_page_config(page_title="Telehealth AI", layout="wide")
 BASE_PATH = os.path.join("dataset", "Disease symptom prediction")
 HISTORY_FILE = "patient_history.csv"
@@ -198,4 +198,5 @@ with tabs[3]:
 
     st.markdown("</div>", unsafe_allow_html=True)
 
-st.caption("⚠ Educational use only — not a medical diagnosis.")  change in this
+st.caption("⚠ Educational use only — not a medical diagnosis.")  
+
